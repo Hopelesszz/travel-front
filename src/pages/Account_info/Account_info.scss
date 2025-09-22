@@ -1,0 +1,180 @@
+@use "../../mixins/mixins.scss";
+.account_info {
+    justify-self: center;
+    width: 1600px;
+    @include mixins.direction-align-justify(column,center, space-around);
+    gap: 30px;
+}
+.button-wrapper {
+    position: relative;
+    display: inline-block;
+
+    a {
+        position: absolute;
+        top: 0;
+        right: -650px; 
+    }
+}   
+.account_info__photoContainer {
+    margin-top: 40px;
+    @include mixins.direction-align-justify(column,center, space-between);
+    height: 470px;
+    width: 800px;
+
+    img {
+        border-radius: 50%;
+        height: 250px;
+        width: 250px;
+    }
+    div {
+        @include mixins.direction-align-justify(column,center,space-around);
+        gap: 5px;
+
+        h2 {
+            font-family: "Inter", "Roboto";
+            font-weight: 600;
+            font-size: 30px;
+            color: white;
+        }
+        p {
+            font-family: "Roboto";
+            font-weight: lighter;
+            font-size: 20px;
+            color: white;
+        }
+    }
+    section {
+        padding-top: 40px;
+        @include mixins.direction-align-justify(row,center, space-around);
+        width: 800px;
+
+        p {
+            font-family: "Roboto";
+            font-weight: lighter;
+            font-size: 20px;
+            color: white;
+            text-transform: uppercase;
+        }
+    }
+}
+.account_info__achievements {
+    width: 1200px;
+    @include mixins.direction-align-justify(column, start, space-between);
+    gap: 30px;
+
+    a {
+        align-self: center;
+    }
+    h3 {
+        font-family: "Inter", "Roboto";
+        font-size: 30px;
+        color: white;
+        font-weight: 500;
+    }
+    div {
+        height: 600px;
+        width: 1200px;
+        @include mixins.direction-align-justify(row, center, space-between);
+
+        section {
+            height: 550px;
+            width: 400px;
+            background-color: white;
+            border-radius: 15px;
+            @include mixins.direction-align-justify(column, center, center);
+            gap: 30px;
+
+            strong {
+                width: 300px;
+                font-family: "Inter", "Roboto";
+                font-size: 25px;
+                font-weight: 700;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                background-color: white;
+                text-align: center;
+            }
+            span {
+                width: 360px;
+                height: 300px;
+                font-family: "Inter", "Roboto";
+                text-align: justify;
+                font-size: 18px;
+                background-color: white;
+                font-weight: 100;
+            }
+            h6 {
+                background-color: white;
+                font-family: "Inter", "Roboto";
+                text-align: justify;
+                font-size: 18px;
+                font-weight: 100;
+            }
+        }
+    }
+}
+.account_info__achievements__title {
+    margin-left: 20px;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+#delete {
+    background-color: white;
+    position: relative;
+    left: 20px;
+    bottom: 40px;
+}
+#photo {
+    background-color: white;
+    font-size: 60px;
+}
+.account_info__posts {
+    width: 1200px;
+    @include mixins.direction-align-justify(column, start, space-between);
+
+    h3 {
+        font-family: "Inter", "Roboto";
+        font-size: 30px;
+        color: white;
+        font-weight: 500;
+    }
+}
+#no_data {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    align-self: center;
+    font-family: "Inter", "Roboto";
+    font-size: 40px;
+    color: white;
+    font-weight: 600;
+    text-align: center;
+}
+.button {
+    background-color: rgba(237, 100, 69, 1);
+    border: none;
+    border-radius: 10px;
+    height: 50px;
+    width: 200px;
+    color: white;
+    font-size: 20px;
+    font-family: "Inter", "Roboto";
+    font-weight: 500;
+    cursor: pointer;
+}
+.progress-bar {
+  height: 10px;
+  width: 320px;
+  border-radius: 10px;
+  background-color: rgba(69, 71, 102, 1);
+  overflow: hidden;
+
+  .progress-bar-fill {
+    height: 100%;
+    background-color: rgba(237, 100, 69, 1);
+    transition: width 0.3s ease-in-out;
+  }
+}

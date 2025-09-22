@@ -1,0 +1,180 @@
+@use "../../mixins/mixins.scss";
+.comment {
+    height: 800px; 
+    width: 560px;
+    background-color: white;
+    border: 1px mixed rgba(60, 66, 66, 1);
+    border-radius: 15px;
+    @include mixins.direction-align-justify(column,center,space-between);
+
+    h1 {
+        font-family: "Inter", "Roboto";
+        font-weight: 200;
+        font-size: 25px;
+        color: black;
+        background-color: white;
+    }
+}
+.comment__container {
+    width: 500px;
+    height: 500px;
+    background-color: white;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-x: hidden;
+}
+.comment__add {
+    width: 500px;
+    height: 250px;
+    background-color: white;
+    @include mixins.direction-justify(column, space-around);
+
+    textarea {
+        font-family: "Inter", "Roboto";
+        max-width: 450px;
+        min-width: 450px;
+        width: 300px;
+        height: 130px;
+        max-height: 130px;
+        border-radius: 10px;
+        border: 1px solid gray;
+        font-size: 12px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 10px;
+        background-color: white;
+        text-align: justify;
+
+        &:focus {
+            outline: none;
+            box-shadow: 2px 2px 2px 2px rgb(0 0 0 / 20%);
+        }
+    }
+    button {
+        height: 50px;
+        width: 300px;
+        border-radius: 10px;
+        border: none;
+        background-color: rgb(60, 165, 60);
+        color: white;
+        font-size: 20px;
+        font-family: "Inter", "Roboto";
+        font-weight: 600;
+        cursor: pointer;
+
+        &:hover {
+            box-shadow: 2px 2px 2px 2px rgb(0 0 0 / 20%);
+        }
+    }
+}
+.closeComment {
+    position: relative;
+    top: 10px;
+    left: 260px;
+    font-size: 20px;
+    color: black;
+    cursor: pointer;
+    background-color: white;
+}
+.comment__container__item {
+    width: 480px;
+    @include mixins.direction-align-justify(column,start,space-between);
+    background-color: white;
+    gap: 10px;
+
+    p {
+        background-color: white;
+        line-height: 1.6;
+        font-size: 15px;
+        font-family: "Inter", "Roboto";
+        color: black;
+        text-align: justify;
+    }
+}
+#no_comments {
+    width: 450px;
+    background-color: white;
+    line-height: 1.6;
+    font-size: 15px;
+    font-family: "Inter", "Roboto";
+    color: black;
+    text-align: justify;
+}
+#edit_comment {
+    color: black;
+    background-color: white;
+    position: relative;
+    left: 3px;
+    bottom: 3px;
+    font-size: large;
+}
+#delete_comment {
+    color: black;
+    background-color: white;
+    position: relative;
+    left: 5px;
+    bottom: 3px;
+    font-size: large;
+}
+#add_response {
+    color: black;
+    background-color: white;
+    position: relative;
+    left: 5px;
+    bottom: 3px;
+    font-size: large;
+}
+#response {
+    font-family: "Inter", "Roboto";
+    background-color: white;
+    font-weight: bold;
+    font-size: 15px;
+    color: rgb(216, 75, 75);
+    cursor: pointer;
+}
+.comment__edit {
+    width: 450px;
+    height: 200px;
+    @include mixins.direction-align-justify(column,start,space-between);
+    background-color: white;
+
+    textarea {
+        font-family: "Inter", "Roboto";
+        max-width: 450px;
+        min-width: 450px;
+        width: 300px;
+        height: 130px;
+        max-height: 130px;
+        border-radius: 10px;
+        border: 1px solid gray;
+        font-size: 12px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 10px;
+        background-color: white;
+        text-align: justify;
+
+        &:focus {
+            outline: none;
+            box-shadow: 2px 2px 2px 2px rgb(0 0 0 / 20%);
+        }
+    }
+    button {
+        height: 50px;
+        width: 300px;
+        border-radius: 10px;
+        border: none;
+        background-color: rgba(237, 100, 69, 1);
+        color: white;
+        font-size: 20px;
+        font-family: "Inter", "Roboto";
+        font-weight: 600;
+        cursor: pointer;
+
+        &:hover {
+            box-shadow: 2px 2px 2px 2px rgb(0 0 0 / 20%);
+        }
+    }
+}

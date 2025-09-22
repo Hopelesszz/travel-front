@@ -1,0 +1,67 @@
+@use "../../mixins/mixins.scss";
+.header {
+    color: white;
+    height: 100px;
+    width: 100%;
+    @include mixins.align-justify(center, center);
+}
+.header_container{
+    width: 1600px;
+    height: 80px;
+    @include mixins.align-justify(center, space-around);
+}
+.logo {
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+}
+.header_container__logo_container {
+    @include mixins.direction-align(row, center);
+    gap: 10px;
+    cursor: pointer;
+
+    h1 {
+        font-size: 35px;
+        font-family: "Inter", "Roboto";
+        font-weight: 200;
+    }
+}
+.header_container__nav_links {
+    width: 400px;
+    @include mixins.direction-align-justify(row,center,space-around);
+}
+.link {
+    text-decoration: none;
+    color: white;
+    list-style: none;
+    font-size: 22px;
+    font-family: "Inter", "Roboto";
+    font-weight: 200;
+    cursor: pointer;
+}
+.header_container__account{
+    width: 250px;
+    @include mixins.direction-align-justify(row,center,space-around);
+
+    a {
+        text-decoration: none;
+    }
+    div {
+        width: 120px;
+        @include mixins.direction-align-justify(row,center,space-between);
+    }
+    img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+    span {
+        color: white;
+        font-size: 22px;
+        font-family: "Inter", "Roboto";
+        font-weight: 200;
+    }
+}
+.logout {
+    font-size: 25px;
+}

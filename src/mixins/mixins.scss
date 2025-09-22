@@ -1,0 +1,21 @@
+@mixin align-justify($align, $justify) {
+    display: flex;
+    align-items: $align;
+    justify-content: $justify;
+}
+@mixin direction-align($direction, $align) {
+    display: flex;
+    flex-direction: $direction;
+    align-items: $align;
+}
+@mixin direction-align-justify($direction, $align, $justify) {
+    display: flex;
+    flex-direction: $direction;
+    align-items: $align;
+    justify-content: $justify;
+}
+@mixin direction-justify($direction, $justify) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+}
