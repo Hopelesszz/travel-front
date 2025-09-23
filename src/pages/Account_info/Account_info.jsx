@@ -25,7 +25,7 @@ function Account_info () {
     useEffect(() => {
         const fetchAwards = async () => {
             try {
-                const res = await axios.get(`${API_URL}/awards/getAwardsByUser/${user._id}`);
+                const res = await axios.get(`${API_URL}/awards/getAwardsByUser/${user._id}`, { withCredentials: true });
                 setAwards(res.data);
             } catch (err) {
                 console.error(err);
@@ -33,7 +33,7 @@ function Account_info () {
         };
         const fetchPosts = async () => {
             try {
-                const res = await axios.get(`${API_URL}/posts/getPostsByUser/${user._id}`); 
+                const res = await axios.get(`${API_URL}/posts/getPostsByUser/${user._id}`, { withCredentials: true }); 
                 setPosts(res.data);  
             } catch (err) {
                 console.error(err);
@@ -50,8 +50,8 @@ function Account_info () {
     }
     const deleteAward = async (awardId) => { 
         try {            
-            await axios.delete(`${API_URL}/awards/deleteAward/${awardId}`);
-            const res = await axios.put(`${API_URL}/users/updateUser/${user._id}`, { awardId: awardId, action:"delete award" });
+            await axios.delete(`${API_URL}/awards/deleteAward/${awardId}`, { withCredentials: true });
+            const res = await axios.put(`${API_URL}/users/updateUser/${user._id}`, { awardId: awardId, action:"delete award" }, { withCredentials: true });
             setAwards(prev => prev.filter(a => a._id !== awardId));
             dispatch({ type: "LOGIN_SUCCESS", payload: res.data });  
             navigate("/account_info");

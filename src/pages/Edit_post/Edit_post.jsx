@@ -48,7 +48,7 @@ const Edit_post = () => {
                     action: "default update"
                 }
             }
-            await axios.put(`${API_URL}/posts/updatePost/${post._id}`, editedPost); 
+            await axios.put(`${API_URL}/posts/updatePost/${post._id}`, editedPost, { withCredentials: true }); 
             navigate("/");
         } 
         catch (error) { 

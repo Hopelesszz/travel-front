@@ -29,8 +29,8 @@ const Add_award = () => {
                   target: target
                 },
                 status: "in-progress"
-            });
-            const res = await axios.put(`${API_URL}/users/updateUser/${user._id}`, { awardId: award.data._id, action: "default update"});
+            }, { withCredentials: true });
+            const res = await axios.put(`${API_URL}/users/updateUser/${user._id}`, { awardId: award.data._id, action: "default update"}, { withCredentials: true });
             localStorage.setItem("user", JSON.stringify(res.data));
             dispatch({ type: "LOGIN_SUCCESS", payload: res.data });  
             navigate("/account_info");

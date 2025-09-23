@@ -27,7 +27,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
     useEffect(() => {
         const fetchComments = async () => {
             try {
-                const res = await axios.get(`${API_URL}/comments/getCommentsByPost/${postId}`);
+                const res = await axios.get(`${API_URL}/comments/getCommentsByPost/${postId}`, { withCredentials: true });
                 setComments(res.data);
             } catch (err) {
                 console.error(err);
@@ -42,7 +42,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                 const usersData = [];
                 await Promise.all(
                     comments.map(async (comment) => {
-                        const res = await axios.get(`${API_URL}/users/getOneUser/${comment.authorId}`);
+                        const res = await axios.get(`${API_URL}/users/getOneUser/${comment.authorId}`, { withCredentials: true });
                         usersData.push(res.data);
                     })
                 );
@@ -63,14 +63,14 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                 postId: postId,
                 authorId: user._id,
                 content: newComment
-            });
+            }, { withCredentials: true });
             setComments((prev) => [...prev, res.data]);
             setUsers((prev) => [...prev, user]);
             setNewComment("");
             await axios.put(`${API_URL}/posts/updatePost/${postId}`, {
                 action: "add comment",
                 commentId: res.data._id
-            });
+            }, { withCredentials: true });
             setUpdateTrigger((prev) => prev + 1);
         } catch (err) {
             console.log(err);
@@ -81,7 +81,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
         try {
             const res  = await axios.put(`${API_URL}/comments/updateComment/${commentId}`,{
                 content: updatedComment
-            }) 
+            }, { withCredentials: true }) 
             setComments((prev) => prev.filter((comment) => comment._id !== commentId));
             setComments((prev) => [...prev, res.data]);
             setUpdatedComment("");
@@ -98,7 +98,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                 authorId: user._id,
                 content: responsedComment,
                 parentId: commentId 
-            });
+            }, { withCredentials: true });
             setComments((prev) => [...prev, res.data]);
             setUsers((prev) => [...prev, user]);
             setResponsedComment("");
@@ -106,7 +106,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
             await axios.put(`${API_URL}/posts/updatePost/${postId}`, {
                 action: "add comment",
                 commentId: res.data._id
-            });
+            }, { withCredentials: true });
             setUpdateTrigger((prev) => prev + 1);
         } catch (err) {
             console.log(err);
@@ -114,14 +114,14 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
     }
     const deleteComment = async (comment_id,user_id) => {
         try {
-            await axios.delete(`${API_URL}/comments/deleteComment/${comment_id}`);
+            await axios.delete(`${API_URL}/comments/deleteComment/${comment_id}`, { withCredentials: true });
             setComments((prev) => prev.filter((comment) => comment._id !== comment_id));
             setUsers((prev) => prev.filter((user) => user._id !== user_id));
             setNewComment("");
             await axios.put(`${API_URL}/posts/updatePost/${postId}`, {
                 action: "delete comment",
                 commentId: comment_id
-            });
+            }, { withCredentials: true });
             setUpdateTrigger((prev) => prev + 1);
         } catch (err) {
             console.log(err);

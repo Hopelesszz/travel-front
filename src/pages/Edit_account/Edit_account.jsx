@@ -49,7 +49,7 @@ export default function Edit_account() {
                     action: "default update"
                 }
             }
-            const res = await axios.put(`${API_URL}/users/updateUser/${user._id}`, editedUser); 
+            const res = await axios.put(`${API_URL}/users/updateUser/${user._id}`, editedUser, { withCredentials: true }); 
             localStorage.setItem("user", JSON.stringify(res.data));
             dispatch({ type: "LOGIN_SUCCESS", payload: res.data });  
             navigate("/account_info");
