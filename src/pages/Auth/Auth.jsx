@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye,faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
 function Auth () {
+    const API_URL = import.meta.env.VITE_API_URL;
     const [username,setUsername] = useState(undefined);
     const [password,setPassword] = useState(undefined);
     const { loading, error, dispatch } = useContext(AuthContext);
@@ -17,7 +18,7 @@ function Auth () {
         e.preventDefault();
         dispatch({ type: "LOGIN_START" });
         try {
-            const res = await axios.post("/auth/login", {username, password});
+            const res = await axios.post(`${API_URL}/auth/login`, {username, password});
             dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
             navigate("/");
         } 

@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 
 const Add_post = () => {
+    const API_URL = import.meta.env.VITE_API_URL;
     const [content,setContent] = useState("");
     const [files, setFiles] = useState([]);
     const [error, setError] = useState("");
@@ -30,7 +31,7 @@ const Add_post = () => {
                 }
                 )); 
                 const newPost = { authorId: user._id, content: content, images: list, }; 
-                await axios.post("/posts/addPost", newPost); 
+                await axios.post(`${API_URL}/posts/addPost`, newPost); 
                 navigate("/"); 
         } 
         catch (error) { 

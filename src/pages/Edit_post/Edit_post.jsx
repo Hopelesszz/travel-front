@@ -10,6 +10,7 @@ import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from "react-router-dom";
 
 const Edit_post = () => {
+    const API_URL = import.meta.env.VITE_API_URL;
     const [content,setContent] = useState("");
     const [files, setFiles] = useState([]);
     const [error, setError] = useState("");
@@ -47,7 +48,7 @@ const Edit_post = () => {
                     action: "default update"
                 }
             }
-            await axios.put(`/posts/updatePost/${post._id}`, editedPost); 
+            await axios.put(`${API_URL}/posts/updatePost/${post._id}`, editedPost); 
             navigate("/");
         } 
         catch (error) { 

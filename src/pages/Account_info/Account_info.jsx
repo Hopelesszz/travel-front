@@ -13,6 +13,7 @@ import Modal from "../../components/Modal/Modal";
 import Posts from "../../components/Posts/Posts";
 
 function Account_info () {
+    const API_URL = import.meta.env.VITE_API_URL;
     const { user,dispatch } = useContext(AuthContext);
     const [awards,setAwards] = useState([]);
     const [posts,setPosts] = useState([]);
@@ -24,7 +25,7 @@ function Account_info () {
     useEffect(() => {
         const fetchAwards = async () => {
             try {
-                const res = await axios.get(`/awards/getAwardsByUser/${user._id}`);
+                const res = await axios.get(`${API_URL}/awards/getAwardsByUser/${user._id}`);
                 setAwards(res.data);
             } catch (err) {
                 console.error(err);
@@ -32,7 +33,7 @@ function Account_info () {
         };
         const fetchPosts = async () => {
             try {
-                const res = await axios.get(`/posts/getPostsByUser/${user._id}`); 
+                const res = await axios.get(`${API_URL}/posts/getPostsByUser/${user._id}`); 
                 setPosts(res.data);  
             } catch (err) {
                 console.error(err);
@@ -49,8 +50,8 @@ function Account_info () {
     }
     const deleteAward = async (awardId) => { 
         try {            
-            await axios.delete(`/awards/deleteAward/${awardId}`);
-            const res = await axios.put(`/users/updateUser/${user._id}`, { awardId: awardId, action:"delete award" });
+            await axios.delete(`${API_URL}/awards/deleteAward/${awardId}`);
+            const res = await axios.put(`${API_URL}/users/updateUser/${user._id}`, { awardId: awardId, action:"delete award" });
             setAwards(prev => prev.filter(a => a._id !== awardId));
             dispatch({ type: "LOGIN_SUCCESS", payload: res.data });  
             navigate("/account_info");

@@ -8,6 +8,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 const Other_account_info = () => {
+    const API_URL = import.meta.env.VITE_API_URL;
     const location = useLocation();
     const initialUser = location.state.user;
     const [other_user, setOtherUser] = useState(initialUser);
@@ -17,7 +18,7 @@ const Other_account_info = () => {
     useEffect(() => {
     const fetchUser = async () => {
         try {
-        const res = await axios.get(`/users/getOneUser/${initialUser._id}`);
+        const res = await axios.get(`${API_URL}/users/getOneUser/${initialUser._id}`);
         setOtherUser(res.data);
         } catch (err) {
         console.error(err);
@@ -28,7 +29,7 @@ const Other_account_info = () => {
     useEffect(() => {
         const fetchAwards = async () => {
             try {
-                const res = await axios.get(`/awards/getAwardsByUser/${other_user._id}`);
+                const res = await axios.get(`${API_URL}/awards/getAwardsByUser/${other_user._id}`);
                 setAwards(res.data);
             } catch (err) {
                 console.error(err);
@@ -36,7 +37,7 @@ const Other_account_info = () => {
         };
         const fetchPosts = async () => {
             try {
-                const res = await axios.get(`/posts/getPostsByUser/${other_user._id}`); 
+                const res = await axios.get(`${API_URL}/posts/getPostsByUser/${other_user._id}`); 
                 setPosts(res.data);  
             } catch (err) {
                 console.error(err);
@@ -49,8 +50,8 @@ const Other_account_info = () => {
     }, [user._id]);
     const subscribe = async () => {
         try {
-            const res = await axios.put(`/users/updateUser/${other_user._id}`, { followers: user._id, action: "default update"});
-            const res2 = await axios.put(`/users/updateUser/${user._id}`, { following: other_user._id, action: "default update"});
+            const res = await axios.put(`${API_URL}/users/updateUser/${other_user._id}`, { followers: user._id, action: "default update"});
+            const res2 = await axios.put(`${API_URL}/users/updateUser/${user._id}`, { following: other_user._id, action: "default update"});
             localStorage.setItem("user", JSON.stringify(res2.data));
             dispatch({ type: "LOGIN_SUCCESS", payload: res2.data });  
             setOtherUser(res.data);
@@ -61,8 +62,8 @@ const Other_account_info = () => {
     }
     const unsubscribe = async () => {
         try {
-            const res = await axios.put(`/users/updateUser/${other_user._id}`, { followers: user._id, action: "delete followers"});
-            const res2 = await axios.put(`/users/updateUser/${user._id}`, { following: other_user._id, action: "delete following"});
+            const res = await axios.put(`${API_URL}/users/updateUser/${other_user._id}`, { followers: user._id, action: "delete followers"});
+            const res2 = await axios.put(`${API_URL}/users/updateUser/${user._id}`, { following: other_user._id, action: "delete following"});
             localStorage.setItem("user", JSON.stringify(res2.data));
             dispatch({ type: "LOGIN_SUCCESS", payload: res2.data });  
             setOtherUser(res.data);

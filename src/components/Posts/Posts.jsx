@@ -13,6 +13,7 @@ import Modal from "../../components/Modal/Modal";
 import Comments from '../Comments/Comments';
 
 const Posts = ({otherUserId,page}) => {
+    const API_URL = import.meta.env.VITE_API_URL;
     const [posts, setPosts] = useState([]);
     const [users, setUsers] = useState([]);
     const [action, setAction] = useState(null);
@@ -38,7 +39,7 @@ const Posts = ({otherUserId,page}) => {
         if(page === "main") {
             const fetchPosts = async () => {
                 try {
-                    const res = await axios.get("/posts/getAllPosts");
+                    const res = await axios.get(`${API_URL}/posts/getAllPosts`);
                     setPosts(res.data);
                 } catch (err) {
                     console.error(err);
@@ -49,7 +50,7 @@ const Posts = ({otherUserId,page}) => {
         if(page === "account_info") {
             const fetchPosts = async () => {
                 try {
-                    const res = await axios.get(`/posts/getPostsByUser/${user._id}`); 
+                    const res = await axios.get(`${API_URL}/posts/getPostsByUser/${user._id}`); 
                     setPosts(res.data);
                 } catch (err) {
                     console.error(err);
@@ -60,7 +61,7 @@ const Posts = ({otherUserId,page}) => {
         if(page === "other_account_info") {
             const fetchPosts = async () => {
                 try {
-                    const res = await axios.get(`/posts/getPostsByUser/${otherUserId}`); 
+                    const res = await axios.get(`${API_URL}/posts/getPostsByUser/${otherUserId}`); 
                     setPosts(res.data);
                 } catch (err) {
                     console.error(err);
@@ -75,7 +76,7 @@ const Posts = ({otherUserId,page}) => {
                 const usersData = [];
                 await Promise.all(
                     posts.map(async (post) => {
-                        const res = await axios.get(`/users/getOneUser/${post.authorId}`);
+                        const res = await axios.get(`${API_URL}/users/getOneUser/${post.authorId}`);
                         usersData.push(res.data);
                     })
                 );
@@ -106,11 +107,11 @@ const Posts = ({otherUserId,page}) => {
     };
     const like = async (postId) => {
         try {         
-            const post = await axios.get(`/posts/getOnePost/${postId}`);   
+            const post = await axios.get(`${API_URL}/posts/getOnePost/${postId}`);   
             if (post.data.authorId === user._id) {
                 return;
             }
-            await axios.put(`/posts/updatePost/${postId}`,{userId: user._id, action: "like"});
+            await axios.put(`${API_URL}/posts/updatePost/${postId}`,{userId: user._id, action: "like"});
             setPosts((prevPosts) =>
                 prevPosts.map((post) => {
                         if (post._id === postId) {
@@ -128,7 +129,7 @@ const Posts = ({otherUserId,page}) => {
     }
     const cancelLike = async (postId) => {
         try {            
-            await axios.put(`/posts/updatePost/${postId}`,{userId: user._id, action: "cancel like"});   
+            await axios.put(`${API_URL}/posts/updatePost/${postId}`,{userId: user._id, action: "cancel like"});   
             setPosts((prevPosts) =>
                 prevPosts.map((post) => {
                         if (post._id === postId) {
@@ -146,7 +147,7 @@ const Posts = ({otherUserId,page}) => {
     }
     const deletePost = async (postId) => {
        try {            
-            await axios.delete(`/posts/deletePost/${postId}`);      
+            await axios.delete(`${API_URL}/posts/deletePost/${postId}`);      
             setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
         } 
         catch (err) {

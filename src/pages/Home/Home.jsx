@@ -5,15 +5,6 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 function Home () {
-    const [posts,setPosts] = useState([]);
-    
-    useEffect(() => {
-        const fetchPosts = async () => {
-            const posts = await axios.get("/posts/getAllPosts");
-            setPosts(posts.data);
-        }
-        fetchPosts();
-    }, []);
     return(
         <>
             <Header/>

@@ -8,6 +8,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 const Add_award = () => {
+    const API_URL = import.meta.env.VITE_API_URL;
     const [title,setTitle] = useState("");
     const [description,setDescription] = useState("");   
     const [target,setTarget] = useState(0);
@@ -19,7 +20,7 @@ const Add_award = () => {
     const addAward = async (e) => {
         e.preventDefault(); 
         try {
-            const award = await axios.post("/awards/addAward", {
+            const award = await axios.post(`${API_URL}/awards/addAward`, {
                 userId: user._id,
                 title: title,
                 description:description,
@@ -29,7 +30,7 @@ const Add_award = () => {
                 },
                 status: "in-progress"
             });
-            const res = await axios.put(`/users/updateUser/${user._id}`, { awardId: award.data._id, action: "default update"});
+            const res = await axios.put(`${API_URL}/users/updateUser/${user._id}`, { awardId: award.data._id, action: "default update"});
             localStorage.setItem("user", JSON.stringify(res.data));
             dispatch({ type: "LOGIN_SUCCESS", payload: res.data });  
             navigate("/account_info");

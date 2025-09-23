@@ -11,6 +11,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Edit_account() {
+    const API_URL = import.meta.env.VITE_API_URL;
     const { user,dispatch } = useContext(AuthContext);
     const [file, setFile] = useState("");
     const [username,setUsername] = useState(user.username || "");
@@ -48,7 +49,7 @@ export default function Edit_account() {
                     action: "default update"
                 }
             }
-            const res = await axios.put(`/users/updateUser/${user._id}`, editedUser); 
+            const res = await axios.put(`${API_URL}/users/updateUser/${user._id}`, editedUser); 
             localStorage.setItem("user", JSON.stringify(res.data));
             dispatch({ type: "LOGIN_SUCCESS", payload: res.data });  
             navigate("/account_info");

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye,faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 function Registration () {
+    const API_URL = import.meta.env.VITE_API_URL;
     const [username,setUsername] = useState("");
     const [email,setEmail] = useState("");   
     const [password,setPassword] = useState("");
@@ -17,7 +18,7 @@ function Registration () {
     const addUser = async (e) => {
         e.preventDefault(); 
         try {
-            await axios.post("/auth/register", {
+            await axios.post(`${API_URL}/auth/register`, {
                 username: username,
                 email: email,
                 password: password,
