@@ -27,7 +27,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
     useEffect(() => {
         const fetchComments = async () => {
             try {
-                const res = await axios.get(`${API_URL}/comments/getCommentsByPost/${postId}`, { withCredentials: true });
+                const res = await axios.get(`${API_URL}/comments/getCommentsByPost/${postId}`);
                 setComments(res.data);
             } catch (err) {
                 console.error(err);

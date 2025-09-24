@@ -31,7 +31,7 @@ const Add_post = () => {
                 }
                 )); 
                 const newPost = { authorId: user._id, content: content, images: list, }; 
-                await axios.post(`${API_URL}/posts/addPost`, newPost); 
+                await axios.post(`${API_URL}/posts/addPost`, newPost, { withCredentials: true }); 
                 navigate("/"); 
         } 
         catch (error) { 

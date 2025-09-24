@@ -39,7 +39,7 @@ const Posts = ({otherUserId,page}) => {
         if(page === "main") {
             const fetchPosts = async () => {
                 try {
-                    const res = await axios.get(`${API_URL}/posts/getAllPosts`, { withCredentials: true });
+                    const res = await axios.get(`${API_URL}/posts/getAllPosts`);
                     setPosts(res.data);
                 } catch (err) {
                     console.error(err);

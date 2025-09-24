@@ -25,7 +25,7 @@ function Account_info () {
     useEffect(() => {
         const fetchAwards = async () => {
             try {
-                const res = await axios.get(`${API_URL}/awards/getAwardsByUser/${user._id}`, { withCredentials: true });
+                const res = await axios.get(`${API_URL}/awards/getAwardsByUser/${user._id}`, { withCredentials: true },);
                 setAwards(res.data);
             } catch (err) {
                 console.error(err);
