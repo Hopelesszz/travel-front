@@ -69,7 +69,7 @@ const Posts = ({otherUserId,page}) => {
             };
             fetchPosts();
         }
-    }, [updateTrigger, page, user._id])
+    }, [updateTrigger, page, user])
     useEffect(() => {
         const fetchPosts = async () => {
             try {
