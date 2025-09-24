@@ -176,7 +176,7 @@ const Posts = ({otherUserId,page}) => {
                             ) : <></>}
                             {postAuthor ? (
                                 postAuthor.avatar ? (
-                                    postAuthor.username === user.username ? (
+                                    postAuthor.username === user?.username ? (
                                         <div className="posts_container__items__item__user">
                                             <img src={postAuthor.avatar} alt="Profile" />
                                             <p>{postAuthor.username}</p>
@@ -227,7 +227,7 @@ const Posts = ({otherUserId,page}) => {
                                         </Link>
                                     )
                                 ) : (
-                                    postAuthor.username === user.username ? (
+                                    postAuthor.username === user?.username ? (
                                         <div className="posts_container__items__item__user">
                                             <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" />
                                             <p>{postAuthor.username}</p>
@@ -295,12 +295,14 @@ const Posts = ({otherUserId,page}) => {
                                 </Carousel>
                                 <nav>
                                     <span>
-                                       {user && (
+                                       {user ? (
                                             post.likes.includes(user._id) ? (
                                                 <FontAwesomeIcon onClick={() => cancelLike(post._id)} style={{ marginLeft: "10px", color: "red" }} icon={faHeart}/>
                                             ) : (
                                                 <FontAwesomeIcon onClick={() => like(post._id)} style={{ marginLeft: "10px" }} icon={faHeart}/>
                                             )
+                                        ) : (
+                                            <FontAwesomeIcon style={{ marginLeft: "10px" }} icon={faHeart}/>
                                         )}
                                         <p style={{ color: "black", backgroundColor: "white" }}>{post.likes?.length || 0} </p>
                                     </span>

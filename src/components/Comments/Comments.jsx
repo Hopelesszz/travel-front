@@ -189,16 +189,19 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                                                         }
                                                     </h6>
                                                 )}
-                                                {commentAuthor && commentAuthor._id === user._id ? (
-                                                    <>
-                                                        <FontAwesomeIcon onClick={() => setEditCommentId(editCommentId === comment._id ? null : comment._id)} id="edit_comment" icon={faPen} />
-                                                        <FontAwesomeIcon onClick={() => modalAsk(comment._id,commentAuthor._id)} id="delete_comment" icon={faTrashCan} />
-                                                        <FontAwesomeIcon id="add_response" onClick={() => setResponseCommentId(responseCommentId === comment._id ? null : comment._id)} icon={faComment} />
-                                                    </>
+                                                {user ? (
+                                                    commentAuthor && commentAuthor._id === user?._id ? (
+                                                        <>
+                                                            <FontAwesomeIcon onClick={() => setEditCommentId(editCommentId === comment._id ? null : comment._id)} id="edit_comment" icon={faPen}/>
+                                                            <FontAwesomeIcon onClick={() => modalAsk(comment._id, commentAuthor._id)} id="delete_comment" icon={faTrashCan}/>
+                                                            <FontAwesomeIcon id="add_response" onClick={() => setResponseCommentId(responseCommentId === comment._id ? null : comment._id)} icon={faComment}/>
+                                                        </>
                                                     ) : (
-                                                        <FontAwesomeIcon id="add_response" onClick={() => setResponseCommentId(responseCommentId === comment._id ? null : comment._id)} icon={faComment} />
+                                                        <FontAwesomeIcon id="add_response" onClick={() => setResponseCommentId(responseCommentId === comment._id ? null : comment._id)} icon={faComment}/>
                                                     )
-                                                }
+                                                ) : (
+                                                    <></>
+                                                )}
                                             </div>
                                         ) : (
                                             <div className="posts_container__items__item__user">
@@ -241,16 +244,19 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                                                         }
                                                     </h6>
                                                 )}
-                                                {commentAuthor && commentAuthor._id === user._id ? (
-                                                    <>
-                                                        <FontAwesomeIcon onClick={() => setEditCommentId(editCommentId === comment._id ? null : comment._id)} id="edit_comment" icon={faPen} />
-                                                        <FontAwesomeIcon onClick={() => modalAsk(comment._id,commentAuthor._id)} id="delete_comment" icon={faTrashCan} />
-                                                        <FontAwesomeIcon id="add_response" onClick={() => setResponseCommentId(responseCommentId === comment._id ? null : comment._id)} icon={faComment} />
-                                                    </>
+                                                {user ? (
+                                                    commentAuthor && commentAuthor._id === user?._id ? (
+                                                        <>
+                                                            <FontAwesomeIcon onClick={() => setEditCommentId(editCommentId === comment._id ? null : comment._id)} id="edit_comment" icon={faPen}/>
+                                                            <FontAwesomeIcon onClick={() => modalAsk(comment._id, commentAuthor._id)} id="delete_comment" icon={faTrashCan}/>
+                                                            <FontAwesomeIcon id="add_response" onClick={() => setResponseCommentId(responseCommentId === comment._id ? null : comment._id)} icon={faComment}/>
+                                                        </>
                                                     ) : (
-                                                        <FontAwesomeIcon id="add_response" onClick={() => setResponseCommentId(responseCommentId === comment._id ? null : comment._id)} icon={faComment} />
+                                                        <FontAwesomeIcon id="add_response" onClick={() => setResponseCommentId(responseCommentId === comment._id ? null : comment._id)} icon={faComment}/>
                                                     )
-                                                }
+                                                ) : (
+                                                    <></>
+                                                )}
                                             </div>
                                         )}
                                         {editCommentId === comment._id ? (
@@ -281,15 +287,21 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                             <p id='no_comments'>No comments yet</p>
                         )}
                     </div>
-                    <form onSubmit={addComment} className='comment__add'>
-                        <h1>Add comment</h1>
-                        <textarea
-                            value={newComment}
-                            onChange={(e) => setNewComment(e.target.value)}
-                            required
-                        />
-                        <button type="submit">Add Comment</button>
-                    </form>
+                        <form onSubmit={addComment} className='comment__add'>
+                        {user ? (
+                            <>
+                                <h1>Add comment</h1>
+                                <textarea
+                                    value={newComment}
+                                    onChange={(e) => setNewComment(e.target.value)}
+                                    required
+                                />
+                                <button type="submit">Add Comment</button>
+                            </>
+                        ) : (
+                            <></>
+                        )}
+                        </form>
                     {showModal && (
                         <Modal 
                             itemName="comment" 
