@@ -11,7 +11,7 @@ function Auth () {
     const API_URL = import.meta.env.VITE_API_URL;
     const [username,setUsername] = useState(undefined);
     const [password,setPassword] = useState(undefined);
-    const { loading, error, dispatch } = useContext(AuthContext);
+    const { error, dispatch } = useContext(AuthContext);
     const [show,setShow] = useState(false);
     const navigate = useNavigate();
     const authClick = async (e) => {
@@ -54,7 +54,7 @@ function Auth () {
                             </div>
                         </div>
                         <div className="form_container__content__button">
-                            <button disabled={loading} onClick={authClick} type="submit">Sign In</button>
+                            <button onClick={authClick} type="submit">Sign In</button>
                             <p>Don't have an account? <Link to="/register"><strong>Sing up</strong></Link></p>
                         </div>
                        {error && (
