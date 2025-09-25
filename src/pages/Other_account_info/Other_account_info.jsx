@@ -50,8 +50,8 @@ const Other_account_info = () => {
     }, [user._id]);
     const subscribe = async () => {
         try {
-            const res = await axios.put(`/users/updateUser/${other_user._id}`, { followers: user._id, action: "add followers"}, { withCredentials: true });
-            const res2 = await axios.put(`/users/updateUser/${user._id}`, { following: other_user._id, action: "add following"}, { withCredentials: true });
+            const res = await axios.put(`${API_URL}/users/updateUser/${other_user._id}`, { followers: user._id, action: "add followers"}, { withCredentials: true });
+            const res2 = await axios.put(`${API_URL}/users/updateUser/${user._id}`, { following: other_user._id, action: "add following"}, { withCredentials: true });
             localStorage.setItem("user", JSON.stringify(res2.data));
             dispatch({ type: "LOGIN_SUCCESS", payload: res2.data });  
             setOtherUser(res.data);
