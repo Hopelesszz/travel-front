@@ -147,8 +147,13 @@ const Posts = ({otherUserId,page}) => {
     }
     const deletePost = async (postId) => {
        try {            
-            await axios.delete(`${API_URL}/posts/deletePost/${postId}`, { withCredentials: true });      
+            const deletedPost = await axios.delete(`${API_URL}/posts/deletePost/${postId}`, { withCredentials: true });      
             setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
+            await Promise.all(
+                deletedPost.data.comments.map(async (comment) => {
+                    await axios.delete(`${API_URL}/comments/deleteComment/${comment}`, { withCredentials: true });
+                })
+            );
         } 
         catch (err) {
             console.error(err);
