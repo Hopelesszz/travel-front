@@ -72,9 +72,10 @@
         font-weight: 500;
     }
     div {
-        height: 600px;
         width: 1240px;
         @include mixins.direction-align(row, center);
+        gap: 20px;
+        flex-wrap: wrap;
 
         section {
             height: 550px;
