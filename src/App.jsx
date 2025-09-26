@@ -53,8 +53,8 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <AppRoutes />
-    </HashRouter>
+    </BrowserRouter>
   );
 }
