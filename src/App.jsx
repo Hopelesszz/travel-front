@@ -23,7 +23,7 @@ function AppRoutes() {
   useEffect(() => {
     const checkToken = async () => {
       try {
-        const res = await axios.get("/auth/checkToken");
+        const res = await axios.get("/auth/checkToken", { withCredentials: true });
         if (res.data.status === false) {
           dispatch({ type: "LOGOUT" });
           localStorage.removeItem("user");
