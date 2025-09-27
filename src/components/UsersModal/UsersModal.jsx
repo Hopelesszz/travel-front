@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { Link } from "react-router-dom";
 
 const UsersModal = ({showUsers, setShowUsers,usersIds}) => {
+    const API_URL = import.meta.env.VITE_API_URL;
     const [usersData,setUsersData] = useState([]);
     const onClose = () => {
         setShowUsers(false);
@@ -16,7 +17,7 @@ const UsersModal = ({showUsers, setShowUsers,usersIds}) => {
             try {
                 const userData = await Promise.all(
                     usersIds.map(async (userId) => {
-                    const res = await axios.get(`/users/getOneUser/${userId}`);
+                    const res = await axios.get(`${API_URL}/users/getOneUser/${userId}`);
                     return res.data;
                     })
                 );
