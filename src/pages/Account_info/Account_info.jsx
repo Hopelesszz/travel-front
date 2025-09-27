@@ -20,6 +20,8 @@ function Account_info () {
     const [action, setAction] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [awardId, setAwardId] = useState(null);
+    const [showUsers,setShowUsers] = useState(false);
+    const [users,setUsers] = useState(null);
     
     const navigate = useNavigate();
     useEffect(() => {
@@ -78,11 +80,11 @@ function Account_info () {
                         <p id="email">{user.email}</p>
                     </div>
                     <section>
-                        <div>
+                        <div style={{cursor:"pointer"}} onClick={()=>{setShowUsers(true); setUsers(user.followers)}}>
                             <h2>{user.followers.length}</h2>
                             <p>followers</p>
                         </div>
-                        <div>
+                        <div style={{cursor:"pointer"}} onClick={()=>{setShowUsers(true); setUsers(user.following)}}>
                             <h2>{user.following.length}</h2>
                             <p>following</p>
                         </div>
@@ -134,6 +136,13 @@ function Account_info () {
                         setShowModal={setShowModal} 
                         item={awardId}
                         deleteItem={deleteAward}
+                    />
+                )}
+                {showUsers && (
+                    <UsersModal 
+                        showUsers={showUsers}
+                        setShowUsers={setShowUsers}
+                        usersIds={users}
                     />
                 )}
             </div>

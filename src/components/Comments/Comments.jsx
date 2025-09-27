@@ -6,6 +6,7 @@ import axios from 'axios';
 import { AuthContext } from "../../context/AuthContext";
 import Modal from "../../components/Modal/Modal";
 import { HashLink } from 'react-router-hash-link';
+import { Link } from "react-router-dom";
 
 const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
     const API_URL = import.meta.env.VITE_API_URL;
@@ -149,6 +150,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                                 return (
                                     <div key={comment._id} id={`comment-${comment._id}`} className="comment__container__item">
                                         {commentAuthor?.avatar ? (
+                                            <Link state={{ user: commentAuthor }} style={{ textDecoration: "none" }} to="/other_account_info">
                                             <div className="posts_container__items__item__user">
                                                 <img src={commentAuthor.avatar} alt="Profile" />
                                                 <p>{commentAuthor.username}</p>
@@ -203,7 +205,9 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                                                     <></>
                                                 )}
                                             </div>
+                                            </Link>
                                         ) : (
+                                            <Link state={{ user: commentAuthor }} style={{ textDecoration: "none" }} to="/other_account_info">
                                             <div className="posts_container__items__item__user">
                                                 <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" />
                                                 <p>{commentAuthor?.username || "Unknown user"}</p>
@@ -258,6 +262,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                                                     <></>
                                                 )}
                                             </div>
+                                            </Link>
                                         )}
                                         {editCommentId === comment._id ? (
                                             <>

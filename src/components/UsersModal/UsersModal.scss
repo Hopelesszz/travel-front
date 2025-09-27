@@ -1,0 +1,37 @@
+@use "../../mixins/mixins.scss";
+.user {
+    height: 50px;
+    width: 100px;
+    @include mixins.direction-align-justify(row, center, center);
+    background-color: white;
+    gap: 10px;
+
+    img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+    p {
+        font-family: "Inter", "Roboto";
+        background-color: white;
+        font-weight: bold;
+        color: black;
+        font-size: large;
+    }
+}
+.users {
+    padding-left: 20px;
+    height: 800px; 
+    width: 560px;
+    background-color: white;
+    border: 1px mixed rgba(60, 66, 66, 1);
+    border-radius: 15px;
+    @include mixins.direction-align-justify(column,start,space-between);
+
+    div {
+        cursor: pointer;
+        background-color: white;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+}
