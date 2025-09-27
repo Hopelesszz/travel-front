@@ -11,6 +11,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 import Modal from "../../components/Modal/Modal";
 import Posts from "../../components/Posts/Posts";
+import UsersModal from "../../components/UsersModal/UsersModal.jsx";
 
 function Account_info () {
     const API_URL = import.meta.env.VITE_API_URL;
