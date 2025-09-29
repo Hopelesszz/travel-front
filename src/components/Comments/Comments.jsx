@@ -151,7 +151,6 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                                     <div key={comment._id} id={`comment-${comment._id}`} className="comment__container__item">
                                         {commentAuthor?.avatar ? (
                                             <div className="posts_container__items__item__user">
-                                                <Link state={{ user: commentAuthor }} style={{ textDecoration: "none" }} to="/other_account_info">
                                                 <img src={commentAuthor.avatar} alt="Profile" />
                                                 <p>{commentAuthor.username}</p>
                                                 {userToResponse ? (
@@ -191,7 +190,6 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                                                         }
                                                     </h6>
                                                 )}
-                                                </Link>
                                                 {user ? (
                                                     commentAuthor && commentAuthor._id === user?._id ? (
                                                         <>
@@ -208,7 +206,6 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                                             </div>
                                         ) : (
                                             <div className="posts_container__items__item__user">
-                                                <Link state={{ user: commentAuthor }} style={{ textDecoration: "none" }} to="/other_account_info">
                                                 <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" />
                                                 <p>{commentAuthor?.username || "Unknown user"}</p>
                                                 {userToResponse ? (
@@ -248,7 +245,6 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                                                         }
                                                     </h6>
                                                 )}
-                                                </Link>
                                                 {user ? (
                                                     commentAuthor && commentAuthor._id === user?._id ? (
                                                         <>
