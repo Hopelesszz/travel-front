@@ -9,6 +9,7 @@ import { HashLink } from 'react-router-hash-link';
 import { Link } from "react-router-dom";
 
 const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
+    const API_URL = import.meta.env.VITE_API_URL;
     const { user } = useContext(AuthContext);
     const [comments, setComments] = useState([]);
     const [users, setUsers] = useState([]);
@@ -27,7 +28,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
     useEffect(() => {
         const fetchComments = async () => {
             try {
-                const res = await axios.get(`/comments/getCommentsByPost/${postId}`);
+                const res = await axios.get(`${API_URL}/comments/getCommentsByPost/${postId}`);
                 setComments(res.data);
             } catch (err) {
                 console.error(err);
@@ -42,7 +43,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                 const usersData = [];
                 await Promise.all(
                     comments.map(async (comment) => {
-                        const res = await axios.get(`/users/getOneUser/${comment.authorId}`);
+                        const res = await axios.get(`${API_URL}/users/getOneUser/${comment.authorId}`);
                         usersData.push(res.data);
                     })
                 );
@@ -59,7 +60,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
     const addComment = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("/comments/addComment", {
+            const res = await axios.post(`${API_URL}/comments/addComment`, {
                 postId: postId,
                 authorId: user._id,
                 content: newComment
@@ -67,7 +68,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
             setComments((prev) => [...prev, res.data]);
             setUsers((prev) => [...prev, user]);
             setNewComment("");
-            await axios.put(`/posts/updatePost/${postId}`, {
+            await axios.put(`${API_URL}/posts/updatePost/${postId}`, {
                 action: "add comment",
                 commentId: res.data._id
             });
@@ -79,7 +80,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
     const editComment = async (e,commentId) => {
         e.preventDefault();
         try {
-            const res  = await axios.put(`/comments/updateComment/${commentId}`,{
+            const res  = await axios.put(`${API_URL}/comments/updateComment/${commentId}`,{
                 content: updatedComment
             }) 
             setComments((prev) => prev.filter((comment) => comment._id !== commentId));
@@ -93,7 +94,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
     const responseComment = async (e,commentId) => {
         e.preventDefault();
         try {
-            const res = await axios.post("/comments/addComment", {
+            const res = await axios.post(`${API_URL}/comments/addComment`, {
                 postId: postId,
                 authorId: user._id,
                 content: responsedComment,
@@ -103,7 +104,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
             setUsers((prev) => [...prev, user]);
             setResponsedComment("");
             setResponseCommentId(null);
-            await axios.put(`/posts/updatePost/${postId}`, {
+            await axios.put(`${API_URL}/posts/updatePost/${postId}`, {
                 action: "add comment",
                 commentId: res.data._id
             });
@@ -114,11 +115,11 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
     }
     const deleteComment = async (comment_id,user_id) => {
         try {
-            await axios.delete(`/comments/deleteComment/${comment_id}`);
+            await axios.delete(`${API_URL}/comments/deleteComment/${comment_id}`);
             setComments((prev) => prev.filter((comment) => comment._id !== comment_id));
             setUsers((prev) => prev.filter((user) => user._id !== user_id));
             setNewComment("");
-            await axios.put(`/posts/updatePost/${postId}`, {
+            await axios.put(`${API_URL}/posts/updatePost/${postId}`, {
                 action: "delete comment",
                 commentId: comment_id
             });

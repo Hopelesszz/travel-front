@@ -6,12 +6,13 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 function Header () {
+    const API_URL = import.meta.env.VITE_API_URL;
     const { user,dispatch } = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
     
     const logOut = async () => {
-        await axios.post(`/auth/logout/${user._id}`);
+        await axios.post(`${API_URL}/auth/logout/${user._id}`);
         dispatch({ type: "LOGOUT" });
         localStorage.removeItem("user");
         navigate("/auth");
