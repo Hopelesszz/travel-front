@@ -9,7 +9,6 @@ import { HashLink } from 'react-router-hash-link';
 import { Link } from "react-router-dom";
 
 const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
-    const API_URL = import.meta.env.VITE_API_URL;
     const { user } = useContext(AuthContext);
     const [comments, setComments] = useState([]);
     const [users, setUsers] = useState([]);
@@ -28,7 +27,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
     useEffect(() => {
         const fetchComments = async () => {
             try {
-                const res = await axios.get(`${API_URL}/comments/getCommentsByPost/${postId}`);
+                const res = await axios.get(`/comments/getCommentsByPost/${postId}`);
                 setComments(res.data);
             } catch (err) {
                 console.error(err);
@@ -43,7 +42,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                 const usersData = [];
                 await Promise.all(
                     comments.map(async (comment) => {
-                        const res = await axios.get(`${API_URL}/users/getOneUser/${comment.authorId}`, { withCredentials: true });
+                        const res = await axios.get(`/users/getOneUser/${comment.authorId}`);
                         usersData.push(res.data);
                     })
                 );
@@ -60,18 +59,18 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
     const addComment = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post(`${API_URL}/comments/addComment`, {
+            const res = await axios.post("/comments/addComment", {
                 postId: postId,
                 authorId: user._id,
                 content: newComment
-            }, { withCredentials: true });
+            });
             setComments((prev) => [...prev, res.data]);
             setUsers((prev) => [...prev, user]);
             setNewComment("");
-            await axios.put(`${API_URL}/posts/updatePost/${postId}`, {
+            await axios.put(`/posts/updatePost/${postId}`, {
                 action: "add comment",
                 commentId: res.data._id
-            }, { withCredentials: true });
+            });
             setUpdateTrigger((prev) => prev + 1);
         } catch (err) {
             console.log(err);
@@ -80,9 +79,9 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
     const editComment = async (e,commentId) => {
         e.preventDefault();
         try {
-            const res  = await axios.put(`${API_URL}/comments/updateComment/${commentId}`,{
+            const res  = await axios.put(`/comments/updateComment/${commentId}`,{
                 content: updatedComment
-            }, { withCredentials: true }) 
+            }) 
             setComments((prev) => prev.filter((comment) => comment._id !== commentId));
             setComments((prev) => [...prev, res.data]);
             setUpdatedComment("");
@@ -94,20 +93,20 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
     const responseComment = async (e,commentId) => {
         e.preventDefault();
         try {
-            const res = await axios.post(`${API_URL}/comments/addComment`, {
+            const res = await axios.post("/comments/addComment", {
                 postId: postId,
                 authorId: user._id,
                 content: responsedComment,
                 parentId: commentId 
-            }, { withCredentials: true });
+            });
             setComments((prev) => [...prev, res.data]);
             setUsers((prev) => [...prev, user]);
             setResponsedComment("");
             setResponseCommentId(null);
-            await axios.put(`${API_URL}/posts/updatePost/${postId}`, {
+            await axios.put(`/posts/updatePost/${postId}`, {
                 action: "add comment",
                 commentId: res.data._id
-            }, { withCredentials: true });
+            });
             setUpdateTrigger((prev) => prev + 1);
         } catch (err) {
             console.log(err);
@@ -115,14 +114,14 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
     }
     const deleteComment = async (comment_id,user_id) => {
         try {
-            await axios.delete(`${API_URL}/comments/deleteComment/${comment_id}`, { withCredentials: true });
+            await axios.delete(`/comments/deleteComment/${comment_id}`);
             setComments((prev) => prev.filter((comment) => comment._id !== comment_id));
             setUsers((prev) => prev.filter((user) => user._id !== user_id));
             setNewComment("");
-            await axios.put(`${API_URL}/posts/updatePost/${postId}`, {
+            await axios.put(`/posts/updatePost/${postId}`, {
                 action: "delete comment",
                 commentId: comment_id
-            }, { withCredentials: true });
+            });
             setUpdateTrigger((prev) => prev + 1);
         } catch (err) {
             console.log(err);
@@ -141,6 +140,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                     <div className="comment__container">
                         {comments && comments.length > 0 ? (
                             comments.map((comment) => {
+                                console.log(users);
                                 const commentAuthor = users.find((user) => user._id === comment.authorId);
                                 let userToResponse;
                                 if(comment.parentId !== null) {
@@ -150,6 +150,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                                 return (
                                     <div key={comment._id} id={`comment-${comment._id}`} className="comment__container__item">
                                         {commentAuthor?.avatar ? (
+                                            //<Link state={{ user: commentAuthor }} style={{ textDecoration: "none" }} to="/other_account_info">
                                             <div className="posts_container__items__item__user">
                                                 <img src={commentAuthor.avatar} alt="Profile" />
                                                 <p>{commentAuthor.username}</p>
@@ -159,12 +160,12 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                                                             e.preventDefault(); 
                                                             let el = document.querySelector(`#comment-${comment.parentId}`);
                                                             el.scrollIntoView({ behavior: "smooth" });
-                                                            el.style.border = "1px solid black";
-                                                            el.style.transition = "border 1s ease";
-                                                            el.style.padding = "10px";
+                                                            el.style.backgroundColor = "rgb(221, 255, 255)";
+                                                            el.style.borderRadius = "10px";
+                                                            el.style.padding = "8px";
                                                             setTimeout(() => {
-                                                                el.style.border = "none";
-                                                                el.style.padding = "0px";
+                                                                el.style.backgroundColor = "white";
+                                                                el.style.borderRadius = "none";
                                                             }, 2000)
                                                         }} 
                                                         smooth to={`#comment-${comment.parentId}`} id="response">
@@ -174,13 +175,13 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                                                     <></>
                                                 )}
                                                 {comment.createdAt === comment.updatedAt ? (
-                                                <h6>Created: 
-                                                    {
-                                                        new Date(comment.createdAt).getDate().toString().padStart(2, "0") + "-" +
-                                                        (new Date(comment.createdAt).getMonth() + 1).toString().padStart(2, "0") + "-" +
-                                                        new Date(comment.createdAt).getFullYear()
-                                                    }
-                                                </h6>
+                                                    <h6>Created: 
+                                                        {
+                                                            new Date(comment.createdAt).getDate().toString().padStart(2, "0") + "-" +
+                                                            (new Date(comment.createdAt).getMonth() + 1).toString().padStart(2, "0") + "-" +
+                                                            new Date(comment.createdAt).getFullYear()
+                                                        }
+                                                    </h6>
                                                 ) : (
                                                     <h6>Modified:
                                                         {
@@ -204,7 +205,9 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                                                     <></>
                                                 )}
                                             </div>
+                                            //</Link>
                                         ) : (
+                                            //<Link state={{ user: commentAuthor }} style={{ textDecoration: "none" }} to="/other_account_info">
                                             <div className="posts_container__items__item__user">
                                                 <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" />
                                                 <p>{commentAuthor?.username || "Unknown user"}</p>
@@ -214,12 +217,12 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                                                             e.preventDefault(); 
                                                             let el = document.querySelector(`#comment-${comment.parentId}`);
                                                             el.scrollIntoView({ behavior: "smooth" });
-                                                            el.style.border = "1px solid black";
-                                                            el.style.transition = "border 1s ease";
-                                                            el.style.padding = "10px";
+                                                            el.style.backgroundColor = "rgb(221, 255, 255)";
+                                                            el.style.borderRadius = "10px";
+                                                            el.style.padding = "8px";
                                                             setTimeout(() => {
-                                                                el.style.border = "none";
-                                                                el.style.padding = "0px";
+                                                                el.style.backgroundColor = "white";
+                                                                el.style.borderRadius = "none";
                                                             }, 2000)
                                                         }} 
                                                         smooth to={`#comment-${comment.parentId}`} id="response">
@@ -259,6 +262,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                                                     <></>
                                                 )}
                                             </div>
+                                            //</Link>
                                         )}
                                         {editCommentId === comment._id ? (
                                             <>

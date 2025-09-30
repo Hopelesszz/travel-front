@@ -40,7 +40,6 @@
     gap: 12px;
 }
 .posts_container__items__item__user {
-    background-color: white;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -52,13 +51,11 @@
     }
     p {
         font-family: "Inter", "Roboto";
-        background-color: white;
         font-weight: bold;
         color: black;
     }
     h6 {
         font-family: "Inter", "Roboto";
-        background-color: white;
         font-weight: bold;
         font-size: 15px;
         color: rgb(139, 139, 139);

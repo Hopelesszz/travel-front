@@ -40,7 +40,7 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/auth" element={<Auth />} />
+      <Route path="/auth" element={<UserRoute><Auth /></UserRoute>} />
       <Route path="/register" element={<UserRoute><Registration /></UserRoute>} />
       <Route path="/account_info" element={<ProtectedRoute><Account_info /></ProtectedRoute>} />
       <Route path="/account_info/edit_account" element={<ProtectedRoute><Edit_account /></ProtectedRoute>} />
