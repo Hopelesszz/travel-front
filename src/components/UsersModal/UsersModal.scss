@@ -1,8 +1,8 @@
 @use "../../mixins/mixins.scss";
 .user {
     height: 50px;
-    width: 100px;
-    @include mixins.direction-align-justify(row, center, center);
+    width: 200px;
+    @include mixins.direction-align-justify(row, center, start);
     background-color: white;
     gap: 10px;
 
