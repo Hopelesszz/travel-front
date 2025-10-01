@@ -2,14 +2,17 @@ import "./Header.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEarthAmericas,faRightFromBracket,faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext,useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
+import SearchUsersModal from "../searchUserModal/searchUserModal.jsx";
 function Header () {
     const API_URL = import.meta.env.VITE_API_URL;
     const { user,dispatch } = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
+    const [showUsers,setShowUsers] = useState(false);
+    const [users,setUsers] = useState(null);
     
     const logOut = async () => {
         await axios.post(`${API_URL}/auth/logout/${user._id}`);
@@ -17,7 +20,10 @@ function Header () {
         localStorage.removeItem("user");
         navigate("/auth");
     }
-    
+    const userSearch = async (e) => {
+        e.preventDefault();
+        setShowUsers(true); 
+    }
     return(
         <div className="header">
             <div className="header_container">
@@ -45,10 +51,12 @@ function Header () {
                             
                     </ul>
                 </nav>
-                <form className="search_form">
+                <form className="search_form" onSubmit={(e) => userSearch(e)}>
                     <div className="search">
-                        <FontAwesomeIcon className="search__icon" icon={faMagnifyingGlass} />
-                        <input className="search__input" type="search" placeholder="Search User"/>
+                        <button type="submit" className="search__button">
+                            <FontAwesomeIcon className="search__icon" icon={faMagnifyingGlass} />
+                        </button>
+                        <input onChange={(e)=>setUsers(e.target.value)} className="search__input" type="search" placeholder="Search User"/>
                     </div>
                 </form>
                 <div className="header_container__account">
@@ -81,6 +89,13 @@ function Header () {
                     <></>
                 }    
             </div>
+            {showUsers && (
+                <SearchUsersModal 
+                    showUsers={showUsers}
+                    setShowUsers={setShowUsers}
+                    query={users}
+                />
+            )}
         </div>
     )
 }
