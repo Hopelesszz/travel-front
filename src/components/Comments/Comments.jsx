@@ -148,13 +148,22 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                                     const parentComment = comments.find((maybeParentComment) => comment.parentId === maybeParentComment._id);
                                     userToResponse  = users.find((user) => user._id === parentComment?.authorId);
                                 }
+                                const isCurrentUser = commentAuthor?._id?.toString() === user._id?.toString();
                                 return (
                                     <div key={comment._id} id={`comment-${comment._id}`} className="comment__container__item">
                                         {commentAuthor?.avatar ? (
-                                            //<Link state={{ user: commentAuthor }} style={{ textDecoration: "none" }} to="/other_account_info">
                                             <div className="posts_container__items__item__user">
-                                                <img src={commentAuthor.avatar} alt="Profile" />
-                                                <p>{commentAuthor.username}</p>
+                                                {isCurrentUser ? (
+                                                    <Link style={{ textDecoration: "none",display:"flex", flexDirection:"row", alignItems:"center", gap:"10px" }} to="/account_info">
+                                                        <img src={commentAuthor.avatar} alt="Profile" />
+                                                        <p>{commentAuthor.username}</p>
+                                                    </Link>
+                                                ) : (
+                                                    <Link state={{ user: commentAuthor }} style={{ textDecoration: "none",display:"flex", flexDirection:"row", alignItems:"center", gap:"10px" }} to="/other_account_info">
+                                                        <img src={commentAuthor.avatar} alt="Profile" />
+                                                        <p>{commentAuthor.username}</p>
+                                                    </Link>
+                                                )}
                                                 {userToResponse ? (
                                                     <HashLink 
                                                         onClick={(e) => {
@@ -206,12 +215,19 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                                                     <></>
                                                 )}
                                             </div>
-                                            //</Link>
                                         ) : (
-                                            //<Link state={{ user: commentAuthor }} style={{ textDecoration: "none" }} to="/other_account_info">
                                             <div className="posts_container__items__item__user">
-                                                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" />
-                                                <p>{commentAuthor?.username || "Unknown user"}</p>
+                                                 {isCurrentUser ? (
+                                                <Link style={{ textDecoration: "none",display:"flex", flexDirection:"row", alignItems:"center", gap:"10px" }} to="/account_info">
+                                                    <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" />
+                                                    <p>{commentAuthor?.username || "Unknown user"}</p>
+                                                </Link>
+                                                ) : (
+                                                    <Link state={{ user: commentAuthor }} style={{ textDecoration: "none",display:"flex", flexDirection:"row", alignItems:"center", gap:"10px" }} to="/other_account_info">
+                                                        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" />
+                                                        <p>{commentAuthor?.username || "Unknown user"}</p>
+                                                    </Link>
+                                                )}
                                                 {userToResponse ? (
                                                     <HashLink 
                                                         onClick={(e) => {
@@ -263,7 +279,6 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                                                     <></>
                                                 )}
                                             </div>
-                                            //</Link>
                                         )}
                                         {editCommentId === comment._id ? (
                                             <>

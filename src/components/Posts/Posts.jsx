@@ -167,7 +167,7 @@ const Posts = ({otherUserId,page}) => {
         setShowComment(true);
         setPostCommentId(postId);
     }
-    return (
+   return (
     <div className="posts">
         <div className="posts_container">
             <h2>Posts</h2>
@@ -181,10 +181,12 @@ const Posts = ({otherUserId,page}) => {
                             ) : <></>}
                             {postAuthor ? (
                                 postAuthor.avatar ? (
-                                    postAuthor.username === user?.username ? (
+                                    postAuthor._id === user?._id ? (
                                         <div className="posts_container__items__item__user">
-                                            <img src={postAuthor.avatar} alt="Profile" />
-                                            <p>{postAuthor.username}</p>
+                                                <Link style={{ textDecoration: "none",display:"flex", flexDirection:"row", alignItems:"center", gap:"10px" }} to="/account_info">
+                                                    <img src={postAuthor.avatar} alt="Profile" />
+                                                    <p>{postAuthor.username}</p>
+                                                </Link>
                                             {post.createdAt === post.updatedAt ? (
                                                 <h6>Created: 
                                                     {
@@ -207,10 +209,11 @@ const Posts = ({otherUserId,page}) => {
                                             </Link>
                                         </div>
                                     ) : (
-                                        <Link state={{ user: postAuthor }} style={{ textDecoration: "none" }} to="/other_account_info">
-                                            <div className="posts_container__items__item__user">
-                                                <img src={postAuthor.avatar} alt="Profile" />
-                                                <p>{postAuthor.username}</p>
+                                        <div className="posts_container__items__item__user">
+                                                <Link state={{ user: postAuthor }} style={{ textDecoration: "none",display:"flex", flexDirection:"row", alignItems:"center", gap:"10px" }} to="/other_account_info">
+                                                    <img src={postAuthor.avatar} alt="Profile" />
+                                                    <p>{postAuthor.username}</p>
+                                                </Link>
                                                 {post.createdAt === post.updatedAt ? (
                                                     <h6>Created: 
                                                         {
@@ -229,13 +232,14 @@ const Posts = ({otherUserId,page}) => {
                                                     </h6>
                                                 )}
                                             </div>
-                                        </Link>
                                     )
                                 ) : (
-                                    postAuthor.username === user?.username ? (
+                                    postAuthor._id === user?._id ? (
                                         <div className="posts_container__items__item__user">
-                                            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" />
-                                            <p>{postAuthor.username}</p>
+                                                <Link style={{ textDecoration: "none",display:"flex", flexDirection:"row", alignItems:"center", gap:"10px" }} to="/account_info">
+                                                    <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" />
+                                                    <p>{postAuthor.username}</p>
+                                                </Link>
                                                 {post.createdAt === post.updatedAt ? (
                                                     <h6>Created: 
                                                         {
@@ -256,10 +260,11 @@ const Posts = ({otherUserId,page}) => {
                                             <FontAwesomeIcon style={{backgroundColor:"white",color:"black"}} icon={faPen} />
                                         </div>
                                     ) : (
-                                        <Link state={{ user: postAuthor }} style={{ textDecoration: "none" }} to="/other_account_info">
-                                            <div className="posts_container__items__item__user">
-                                                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" />
-                                                <p>{postAuthor.username}</p>
+                                        <div className="posts_container__items__item__user">
+                                                <Link state={{ user: postAuthor }} style={{ textDecoration: "none",display:"flex", flexDirection:"row", alignItems:"center", gap:"10px" }} to="/other_account_info">
+                                                    <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" />
+                                                    <p>{postAuthor.username}</p>
+                                                </Link>
                                                 {post.createdAt === post.updatedAt ? (
                                                     <h6>Created: 
                                                         {
@@ -278,7 +283,6 @@ const Posts = ({otherUserId,page}) => {
                                                     </h6>
                                                 )}
                                             </div>
-                                        </Link>
                                     )
                                 )
                             ) : (
