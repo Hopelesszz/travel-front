@@ -89,7 +89,7 @@ function Account_info () {
                     <div>
                         {awards.map((award) => {
                             const userAward = userAwards.find((ua) => ua.achievementId === award._id);
-                            console.log(userAward.progress);
+                            console.log(userAward);
                             const progress = userAward.progress;
                             const status = userAward.completed ? "Completed" : "In progress";
                             const percent = Math.min((progress / award.target) * 100, 100);
