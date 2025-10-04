@@ -25,6 +25,7 @@ function Account_info () {
             try {
                 const awardData = [];
                 const res = await axios.get(`${API_URL}/userAward/getUserAwardsByUser/${user._id}`);
+                console.error(res.data);
                 setUserAwards(res.data);
                 await Promise.all(
                     res.data.map( async (el) => {
