@@ -9,6 +9,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const SearchUsersModal = ({showUsers, setShowUsers,query}) => {
+    const API_URL = import.meta.env.VITE_API_URL;
     const [usersData,setUsersData] = useState([]);
     const { user: loggedUser } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ const SearchUsersModal = ({showUsers, setShowUsers,query}) => {
     useEffect(()=>{
         const fetchUsers = async () => {
             try {
-                const res = await axios.get(`/users/search?query=${query}`);
+                const res = await axios.get(`${API_URL}/users/search?query=${query}`);
                 setUsersData(res.data);
             } 
             catch (err) {
