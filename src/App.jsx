@@ -6,7 +6,6 @@ import Account_info from "./pages/Account_info/Account_info";
 import ProtectedRoute from "./Protected_route";
 import UserRoute from "./User_route";
 import Edit_account from "./pages/Edit_account/Edit_account";
-import Add_award from "./pages/Add_award/Add_award";
 import Add_post from "./pages/Add_post/Add_post";
 import { useEffect,useContext } from "react";
 import axios from "axios";
@@ -44,7 +43,6 @@ function AppRoutes() {
       <Route path="/register" element={<UserRoute><Registration /></UserRoute>} />
       <Route path="/account_info" element={<ProtectedRoute><Account_info /></ProtectedRoute>} />
       <Route path="/account_info/edit_account" element={<ProtectedRoute><Edit_account /></ProtectedRoute>} />
-      <Route path="/add_award" element={<ProtectedRoute><Add_award /></ProtectedRoute>} />
       <Route path="/add_post" element={<ProtectedRoute><Add_post /></ProtectedRoute>} />
       <Route path="/other_account_info" element={<ProtectedRoute><Other_account_info/></ProtectedRoute>}/>
       <Route path="/edit_post" element={<ProtectedRoute><Edit_post/></ProtectedRoute>}/>

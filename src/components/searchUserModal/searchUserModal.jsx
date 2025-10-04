@@ -6,18 +6,19 @@ import { useState } from 'react';
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const SearchUsersModal = ({showUsers, setShowUsers,query}) => {
-    const API_URL = import.meta.env.VITE_API_URL;
     const [usersData,setUsersData] = useState([]);
     const { user: loggedUser } = useContext(AuthContext);
+    const navigate = useNavigate();
     const onClose = () => {
         setShowUsers(false);
     };
     useEffect(()=>{
         const fetchUsers = async () => {
             try {
-                const res = await axios.get(`${API_URL}/users/search?query=${query}`);
+                const res = await axios.get(`/users/search?query=${query}`);
                 setUsersData(res.data);
             } 
             catch (err) {
@@ -28,6 +29,10 @@ const SearchUsersModal = ({showUsers, setShowUsers,query}) => {
             fetchUsers();
         }
     },[query]);
+    const handleUserClick = (user, path) => {
+        onClose();
+        navigate(path, { state: { user } });
+    };
     return (
         showUsers && (
                 <div className="background">
@@ -39,19 +44,15 @@ const SearchUsersModal = ({showUsers, setShowUsers,query}) => {
                                     const isCurrentUser = loggedUser?._id?.toString() === user._id?.toString();
                                     const avatar = user.avatar || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
                                     return isCurrentUser ? (
-                                    <Link key={user._id} style={{ textDecoration: "none" }} to="/account_info">
-                                        <div className="user">
+                                    <div onClick={() => handleUserClick(user,"/account_info")} className="user">
                                         <img src={avatar} alt="Profile" />
                                         <p>{user.username}</p>
-                                        </div>
-                                    </Link>
+                                    </div>
                                     ) : (
-                                    <Link key={user._id} state={{ user: user }} style={{ textDecoration: "none" }} to="/other_account_info">
-                                        <div className="user">
+                                    <div onClick={() => handleUserClick(user,"/other_account_info")} className="user">
                                         <img src={avatar} alt="Profile" />
                                         <p>{user.username}</p>
-                                        </div>
-                                    </Link>
+                                    </div>
                                     );
                                 })}
                         </div>

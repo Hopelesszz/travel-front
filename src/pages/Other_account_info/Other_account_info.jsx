@@ -15,10 +15,11 @@ const Other_account_info = () => {
     const [awards,setAwards] = useState([]);
     const [posts,setPosts] = useState([]);
     const { user,dispatch } = useContext(AuthContext);
+    const [userAwards,setUserAwards] = useState([]);
     useEffect(() => {
     const fetchUser = async () => {
         try {
-        const res = await axios.get(`${API_URL}/users/getOneUser/${initialUser._id}`, { withCredentials: true });
+        const res = await axios.get(`${API_URL}/users/getOneUser/${initialUser._id}`);
         setOtherUser(res.data);
         } catch (err) {
         console.error(err);
@@ -29,15 +30,23 @@ const Other_account_info = () => {
     useEffect(() => {
         const fetchAwards = async () => {
             try {
-                const res = await axios.get(`${API_URL}/awards/getAwardsByUser/${other_user._id}`, { withCredentials: true });
-                setAwards(res.data);
+                const awardData = [];
+                const res = await axios.get(`${API_URL}/userAward/getUserAwardsByUser/${other_user._id}`);
+                setUserAwards(res.data);
+                await Promise.all(
+                    res.data.map( async (el) => {
+                        const res2 = await axios.get(`${API_URL}/awards/getOneAward/${el.achievementId}`);
+                        awardData.push(res2.data);
+                    })
+                );
+                setAwards(awardData);
             } catch (err) {
                 console.error(err);
             }
         };
         const fetchPosts = async () => {
             try {
-                const res = await axios.get(`${API_URL}/posts/getPostsByUser/${other_user._id}`, { withCredentials: true }); 
+                const res = await axios.get(`${API_URL}/posts/getPostsByUser/${other_user._id}`); 
                 setPosts(res.data);  
             } catch (err) {
                 console.error(err);
@@ -48,10 +57,11 @@ const Other_account_info = () => {
             fetchPosts();
         }
     }, [user._id]);
+    const completed = userAwards.filter((ua) => ua.completed === true);
     const subscribe = async () => {
         try {
-            const res = await axios.put(`${API_URL}/users/updateUser/${other_user._id}`, { followers: user._id, action: "add followers"}, { withCredentials: true });
-            const res2 = await axios.put(`${API_URL}/users/updateUser/${user._id}`, { following: other_user._id, action: "add following"}, { withCredentials: true });
+            const res = await axios.put(`${API_URL}/users/updateUser/${other_user._id}`, { followers: user._id, action: "add followers"});
+            const res2 = await axios.put(`${API_URL}/users/updateUser/${user._id}`, { following: other_user._id, action: "add following"});
             localStorage.setItem("user", JSON.stringify(res2.data));
             dispatch({ type: "LOGIN_SUCCESS", payload: res2.data });  
             setOtherUser(res.data);
@@ -62,8 +72,8 @@ const Other_account_info = () => {
     }
     const unsubscribe = async () => {
         try {
-            const res = await axios.put(`${API_URL}/users/updateUser/${other_user._id}`, { followers: user._id, action: "delete followers"}, { withCredentials: true });
-            const res2 = await axios.put(`${API_URL}/users/updateUser/${user._id}`, { following: other_user._id, action: "delete following"}, { withCredentials: true });
+            const res = await axios.put(`${API_URL}/users/updateUser/${other_user._id}`, { followers: user._id, action: "delete followers"});
+            const res2 = await axios.put(`${API_URL}/users/updateUser/${user._id}`, { following: other_user._id, action: "delete following"});
             localStorage.setItem("user", JSON.stringify(res2.data));
             dispatch({ type: "LOGIN_SUCCESS", payload: res2.data });  
             setOtherUser(res.data);
@@ -100,8 +110,8 @@ const Other_account_info = () => {
                             <h2>{other_user.following.length}</h2>
                             <p>following</p>
                         </div>
-                        <div>
-                            <h2>{other_user.awards.length}</h2>
+                        <div >
+                            <h2>{completed.length}</h2>
                             <p>awards</p>
                         </div>
                     </section>
@@ -109,20 +119,27 @@ const Other_account_info = () => {
                 <div className="account_info__achievements">
                     <h3>Achievements</h3>
                     {awards.length !== 0 ? (
-                        <div>
-                            {awards.map((award) => (
-                            <section key={award._id}>
+                    <div>
+                        {awards.map((award) => {
+                            const userAward = userAwards.find((ua) => ua.achievementId === award._id);
+                            const progress = userAward.progress;
+                            const status = userAward.completed ? "Completed" : "In progress";
+                            const percent = Math.min((progress / award.target) * 100, 100);
+                            return (
+                                <section key={award._id}>
                                 <p className="account_info__achievements__title">
                                     <strong>{award.title}</strong>
                                 </p>
                                 <span>{award.description}</span>
-                                <h6>{award.progress.current}/{award.progress.target}</h6>
+                                <h6>{progress}/{award.target}</h6>
                                 <pre className="progress-bar">
-                                    <pre className="progress-bar-fill" style={{ width: `${(award.progress.current / award.progress.target) * 100}%` }}></pre>
+                                    <pre className="progress-bar-fill" style={{ width: `${percent}%` }}></pre>
                                 </pre>
-                            </section>
-                            ))}
-                        </div>
+                                <h6>{status}</h6>
+                                </section>
+                            );
+                        })}
+                    </div>
                     ) : (
                         <h2 id="no_data">There isn't a single achievement.</h2>
                     )}

@@ -7,36 +7,39 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from "react-router-dom";
 import Modal from "../../components/Modal/Modal";
 import Posts from "../../components/Posts/Posts";
 import UsersModal from "../../components/UsersModal/UsersModal.jsx";
 
 function Account_info () {
     const API_URL = import.meta.env.VITE_API_URL;
-    const { user,dispatch } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
+    const [userAwards,setUserAwards] = useState([]);
     const [awards,setAwards] = useState([]);
     const [posts,setPosts] = useState([]);
-    const [action, setAction] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-    const [awardId, setAwardId] = useState(null);
     const [showUsers,setShowUsers] = useState(false);
     const [users,setUsers] = useState(null);
     
-    const navigate = useNavigate();
     useEffect(() => {
         const fetchAwards = async () => {
             try {
-                const res = await axios.get(`${API_URL}/awards/getAwardsByUser/${user._id}`, { withCredentials: true },);
-                setAwards(res.data);
+                const awardData = [];
+                const res = await axios.get(`${API_URL}/userAward/getUserAwardsByUser/${user._id}`);
+                setUserAwards(res.data);
+                await Promise.all(
+                    res.data.map( async (el) => {
+                        const res2 = await axios.get(`${API_URL}/awards/getOneAward/${el.achievementId}`);
+                        awardData.push(res2.data);
+                    })
+                );
+                setAwards(awardData);
             } catch (err) {
                 console.error(err);
             }
         };
         const fetchPosts = async () => {
             try {
-                const res = await axios.get(`${API_URL}/posts/getPostsByUser/${user._id}`, { withCredentials: true }); 
+                const res = await axios.get(`${API_URL}/posts/getPostsByUser/${user._id}`); 
                 setPosts(res.data);  
             } catch (err) {
                 console.error(err);
@@ -46,23 +49,8 @@ function Account_info () {
             fetchAwards();
             fetchPosts();
         }
-    }, [user._id]);
-    const modalAsk = (awardId) => {
-        setShowModal(true);
-        setAwardId(awardId);
-    }
-    const deleteAward = async (awardId) => { 
-        try {            
-            await axios.delete(`${API_URL}/awards/deleteAward/${awardId}`, { withCredentials: true });
-            const res = await axios.put(`${API_URL}/users/updateUser/${user._id}`, { awardId: awardId, action:"delete award" }, { withCredentials: true });
-            setAwards(prev => prev.filter(a => a._id !== awardId));
-            dispatch({ type: "LOGIN_SUCCESS", payload: res.data });  
-            navigate("/account_info");
-        } catch (err) {
-            console.error(err);
-        }
-    }
-     
+    }, [user._id]); 
+    const completed = userAwards.filter((ua) => ua.completed === true);
     return(
         <>
             <Header/>
@@ -89,34 +77,39 @@ function Account_info () {
                             <h2>{user.following.length}</h2>
                             <p>following</p>
                         </div>
-                        <div>
-                            <h2>{user.awards.length}</h2>
+                        <div >
+                            <h2>{completed.length}</h2>
                             <p>awards</p>
                         </div>
                     </section>
                 </div>
                 <div className="account_info__achievements">
                     <h3>Achievements</h3>
-                    {awards.length !== 0 ? (
-                        <div>
-                            {awards.map((award) => (
-                            <section key={award._id}>
+                   {awards.length !== 0 ? (
+                    <div>
+                        {awards.map((award) => {
+                            const userAward = userAwards.find((ua) => ua.achievementId === award._id);
+                            const progress = userAward.progress;
+                            const status = userAward.completed ? "Completed" : "In progress";
+                            const percent = Math.min((progress / award.target) * 100, 100);
+                            return (
+                                <section key={award._id}>
                                 <p className="account_info__achievements__title">
                                     <strong>{award.title}</strong>
-                                    <FontAwesomeIcon onClick={() => {modalAsk(award._id)}} id="delete" icon={faXmark} />
                                 </p>
                                 <span>{award.description}</span>
-                                <h6>{award.progress.current}/{award.progress.target}</h6>
+                                <h6>{progress}/{award.target}</h6>
                                 <pre className="progress-bar">
-                                    <pre className="progress-bar-fill" style={{ width: `${(award.progress.current / award.progress.target) * 100}%` }}></pre>
+                                    <pre className="progress-bar-fill" style={{ width: `${percent}%` }}></pre>
                                 </pre>
-                            </section>
-                            ))}
-                        </div>
+                                <h6>{status}</h6>
+                                </section>
+                            );
+                        })}
+                    </div>
                     ) : (
                         <h2 id="no_data">There isn't a single achievement.</h2>
                     )}
-                    <Link to="/add_award"><button className="button">Add Achievement</button></Link>
                 </div>
                 <div className="account_info__posts">
                     {posts.length !== 0 ? (
@@ -128,17 +121,6 @@ function Account_info () {
                         </>
                     )}
                 </div>
-                {showModal && (
-                    <Modal 
-                        itemName="achievement" 
-                        action={action} 
-                        setAction={setAction} 
-                        showModal={showModal} 
-                        setShowModal={setShowModal} 
-                        item={awardId}
-                        deleteItem={deleteAward}
-                    />
-                )}
                 {showUsers && (
                     <UsersModal 
                         showUsers={showUsers}

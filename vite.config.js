@@ -25,6 +25,10 @@ export default defineConfig({
       "/comments": {
         target: "http://localhost:8800", 
         changeOrigin: true  
+      },
+      "/userAward": {
+        target: "http://localhost:8800", 
+        changeOrigin: true  
       }
     }
   }
