@@ -34,6 +34,12 @@ function Registration () {
             dispatch({ type: "LOGIN_START" });
             const res = await axios.post(`${API_URL}/auth/login`, {username, password});
             dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+            const award = await axios.post(`${API_URL}/userAward/addUserAward`,{
+                userId: res.data.details._id,
+                achievementId: "68dfbc79363f46220266f4d2",
+                progress: 1,
+                completed: true
+            })
             navigate("/");
         }
         catch (error) {

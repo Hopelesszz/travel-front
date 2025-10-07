@@ -73,6 +73,24 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                 commentId: res.data._id
             });
             setUpdateTrigger((prev) => prev + 1);
+            const user_award = axios.get(`${API_URL}/userAward/getUserAward?userId=${user._id}&awardId=68e254a12149cfc7e2ea82ef`);
+            const res2 = (await user_award).data;
+            if(!res2) {
+                const award = await axios.post(`${API_URL}/userAward/addUserAward`,{
+                    userId: user._id,
+                    achievementId: "68e254a12149cfc7e2ea82ef",
+                    progress: 1,
+                    completed: false
+                })
+            }
+            else if(res2.progress < 5) {
+                const newProgress = res2.progress + 1;
+                const completed = newProgress >= 5;
+                const award = await axios.put(`${API_URL}/userAward/updateUserAward/${res2._id}`,{
+                    progress: newProgress,
+                    completed
+                })
+            }
         } catch (err) {
             console.log(err);
         }
@@ -109,6 +127,24 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                 commentId: res.data._id
             });
             setUpdateTrigger((prev) => prev + 1);
+            const user_award = axios.get(`${API_URL}/userAward/getUserAward?userId=${user._id}&awardId=68e254a12149cfc7e2ea82ef`);
+            const res2 = (await user_award).data;
+            if(!res2) {
+                const award = await axios.post(`${API_URL}/userAward/addUserAward`,{
+                    userId: user._id,
+                    achievementId: "68e254a12149cfc7e2ea82ef",
+                    progress: 1,
+                    completed: false
+                })
+            }
+            else if(res2.progress < 5) {
+                const newProgress = res2.progress + 1;
+                const completed = newProgress >= 5;
+                const award = await axios.put(`${API_URL}/userAward/updateUserAward/${res2._id}`,{
+                    progress: newProgress,
+                    completed
+                })
+            }
         } catch (err) {
             console.log(err);
         }
@@ -124,6 +160,16 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                 commentId: comment_id
             });
             setUpdateTrigger((prev) => prev + 1);
+            const user_award = axios.get(`${API_URL}/userAward/getUserAward?userId=${user._id}&awardId=68e254a12149cfc7e2ea82ef`);
+            const res2 = (await user_award).data;
+            if(res2.progress > 0) {
+                const newProgress = res2.progress - 1;
+                const completed = newProgress >= 5;
+                const award = await axios.put(`${API_URL}/userAward/updateUserAward/${res2._id}`,{
+                    progress: newProgress,
+                    completed
+                })
+            }
         } catch (err) {
             console.log(err);
         }

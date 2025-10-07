@@ -32,6 +32,24 @@ const Add_post = () => {
                 )); 
                 const newPost = { authorId: user._id, content: content, images: list, }; 
                 await axios.post(`${API_URL}/posts/addPost`, newPost, { withCredentials: true }); 
+                const user_award = axios.get(`${API_URL}/userAward/getUserAward?userId=${user._id}&awardId=68e252122149cfc7e2ea826a`);
+                const res2 = (await user_award).data;
+                if(!res2) {
+                const award = await axios.post(`${API_URL}/userAward/addUserAward`,{
+                    userId: user._id,
+                    achievementId: "68e252122149cfc7e2ea826a",
+                    progress: 1,
+                    completed: false
+                })
+                }
+                else if(res2.progress < 5) {
+                    const newProgress = res2.progress + 1;
+                    const completed = newProgress >= 5;
+                    const award = await axios.put(`${API_URL}/userAward/updateUserAward/${res2._id}`,{
+                        progress: newProgress,
+                        completed
+                    })
+                }
                 navigate("/"); 
         } 
         catch (error) { 
