@@ -11,11 +11,9 @@ import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import Modal from "../../components/Modal/Modal";
 import Comments from '../Comments/Comments';
-import Loader from "../../components/Loader/Loader";
 
 const Posts = ({otherUserId,page}) => {
     const API_URL = import.meta.env.VITE_API_URL;
-    const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState([]);
     const [users, setUsers] = useState([]);
     const [action, setAction] = useState(null);
@@ -38,28 +36,40 @@ const Posts = ({otherUserId,page}) => {
     );
     
     useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                setLoading(true); 
-                let res;
-                if (page === "main") {
-                    res = await axios.get("/posts/getAllPosts");
-                } 
-                else if (page === "account_info") {
-                    res = await axios.get(`/posts/getPostsByUser/${user._id}`);
-                } 
-                else if (page === "other_account_info") {
-                    res = await axios.get(`/posts/getPostsByUser/${otherUserId}`);
+        if(page === "main") {
+            const fetchPosts = async () => {
+                try {
+                    const res = await axios.get(`${API_URL}/posts/getAllPosts`);
+                    setPosts(res.data);
+                } catch (err) {
+                    console.error(err);
                 }
-                setPosts(res.data);
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setLoading(false); 
-            }
-        };
-        fetchPosts();
-    }, [updateTrigger, page, user]);
+            };
+            fetchPosts();
+        }
+        if(page === "account_info") {
+            const fetchPosts = async () => {
+                try {
+                    const res = await axios.get(`${API_URL}/posts/getPostsByUser/${user._id}`); 
+                    setPosts(res.data);
+                } catch (err) {
+                    console.error(err);
+                }
+            };
+            fetchPosts();
+        }
+        if(page === "other_account_info") {
+            const fetchPosts = async () => {
+                try {
+                    const res = await axios.get(`${API_URL}/posts/getPostsByUser/${otherUserId}`); 
+                    setPosts(res.data);
+                } catch (err) {
+                    console.error(err);
+                }
+            };
+            fetchPosts();
+        }
+    }, [updateTrigger, page, user])
     useEffect(() => {
         const fetchPosts = async () => {
             try {
@@ -195,7 +205,6 @@ const Posts = ({otherUserId,page}) => {
         setShowComment(true);
         setPostCommentId(postId);
     }
-    if (loading) return <Loader color={"white"}/>;
    return (
     <div className="posts">
         <div className="posts_container">
