@@ -33,7 +33,7 @@ function AppRoutes() {
         console.log(err);
       }
     };
-    checkToken();
+    //checkToken();
   }, []);
   
   return (
