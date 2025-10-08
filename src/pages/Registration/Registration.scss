@@ -109,7 +109,7 @@
 .form_container__content {
     background-color: white;
     @include mixins.direction-justify(column, space-between);
-    height: 400px;
+    height: 480px;
 }
 .error {
     font-family: "Inter", "Roboto";
