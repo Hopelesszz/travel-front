@@ -7,9 +7,11 @@ import { AuthContext } from "../../context/AuthContext";
 import Modal from "../../components/Modal/Modal";
 import { HashLink } from 'react-router-hash-link';
 import { Link } from "react-router-dom";
+import Loader from "../../components/Loader/Loader";
 
 const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
     const API_URL = import.meta.env.VITE_API_URL;
+    const [loading, setLoading] = useState(true);
     const { user } = useContext(AuthContext);
     const [comments, setComments] = useState([]);
     const [users, setUsers] = useState([]);
@@ -32,6 +34,9 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                 setComments(res.data);
             } catch (err) {
                 console.error(err);
+            }
+            finally {
+                setLoading(false); 
             }
         };
         fetchComments();
@@ -179,6 +184,7 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
         setCommentId(commentId);
         setUserId(userId);
     }
+    if (loading) return <Loader color={"white"}/>;
     return (
         showComment && (
             <div className="background">
@@ -195,6 +201,9 @@ const Comments = ({ postId, showComment, setShowComment,setUpdateTrigger }) => {
                                     userToResponse  = users.find((user) => user._id === parentComment?.authorId);
                                 }
                                 const isCurrentUser = commentAuthor?._id?.toString() === user._id?.toString();
+                                if(loading) {
+                                    return <Loader color={"white"}/>
+                                }
                                 return (
                                     <div key={comment._id} id={`comment-${comment._id}`} className="comment__container__item">
                                         {commentAuthor?.avatar ? (
