@@ -7,24 +7,23 @@ import ProtectedRoute from "./Protected_route";
 import UserRoute from "./User_route";
 import Edit_account from "./pages/Edit_account/Edit_account";
 import Add_post from "./pages/Add_post/Add_post";
-import { useEffect,useContext,useState } from "react";
+import { useEffect,useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext.jsx";
 import Other_account_info from "./pages/Other_account_info/Other_account_info.jsx";
 import Edit_post from "./pages/Edit_post/Edit_post.jsx";
-import Loader from "./components/Loader/Loader.jsx";
 
 
 function AppRoutes() {
   const { dispatch } = useContext(AuthContext);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const checkToken = async () => {
       try {
-        const res = await axios.get("/auth/checkToken");
+        const res = await axios.get(`${API_URL}/auth/checkToken`);
         if (res.data.status === false) {
           dispatch({ type: "LOGOUT" });
           localStorage.removeItem("user");
@@ -36,11 +35,7 @@ function AppRoutes() {
     };
     checkToken();
   }, []);
-  const { initialized } = useContext(AuthContext);
-  if (!initialized) {
-    return <Loader color="white" />;
-  }
-
+  
   return (
     <Routes>
       <Route path="/" element={<Home />} />
