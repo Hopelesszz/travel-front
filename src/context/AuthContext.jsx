@@ -47,29 +47,6 @@ export const AuthContextProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(state.user));
   }, [state.user]);
 
-  useEffect(() => {
-    const checkToken = async () => {
-      if (!state.user) return; 
-      try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/auth/checkToken`,
-          { withCredentials: true }
-        );
-
-        if (!res.data.status) {
-          localStorage.removeItem("user");
-          dispatch({ type: "LOGOUT" });
-        }
-      } catch (err) {
-        console.error("Token check failed:", err);
-        localStorage.removeItem("user");
-        dispatch({ type: "LOGOUT" });
-      }
-    };
-
-    checkToken();
-  }, []); 
-
   return (
     <AuthContext.Provider
       value={{

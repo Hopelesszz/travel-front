@@ -33,9 +33,9 @@ function AppRoutes() {
         console.log(err);
       }
     };
-    //checkToken();
+    checkToken();
   }, []);
-
+  
   return (
     <Routes>
       <Route path="/" element={<Home />} />
