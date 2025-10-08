@@ -40,7 +40,7 @@
     cursor: pointer;
 }
 .header_container__account{
-    width: 250px;
+    width: 300px;
     @include mixins.direction-align-justify(row,center,space-around);
 
     a {
