@@ -90,7 +90,7 @@ export default function Edit_account() {
                         </div>
                         <div className="form_container__content__field">
                             <label htmlFor="email">Email</label>
-                            <input onChange={(e) => setEmail(e.target.value)} type="email" id="email" name="email" value={email} required />
+                            <input onChange={(e) => setEmail(e.target.value)} accept="image/*" type="email" id="email" name="email" value={email} required />
                         </div>
                         <div className="form_container__content__button">
                             <button type="submit">Edit</button>

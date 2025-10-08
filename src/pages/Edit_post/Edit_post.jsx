@@ -71,7 +71,7 @@ const Edit_post = () => {
                         <div className="form_container__content__field">
                             <label>Photos</label>
                             <label htmlFor="avatar"><FontAwesomeIcon className='upload_photo' icon={faImage} /></label>
-                            <input multiple onChange={(e) => setFiles([...e.target.files])} type="file" id="avatar" name="avatar" style={{ display: "none" }} />
+                            <input multiple onChange={(e) => setFiles([...e.target.files])} accept="image/*" type="file" id="avatar" name="avatar" style={{ display: "none" }} />
                         </div>
                         <div style={{ height: "312px" }} className="form_container__content__field">
                             <label htmlFor="description">Content</label>
