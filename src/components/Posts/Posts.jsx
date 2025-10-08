@@ -203,9 +203,6 @@ const Posts = ({otherUserId,page}) => {
             <div className="posts_container__items">
                 {posts.map((post) => {
                 const postAuthor = users.find((u) => u._id === post.authorId);
-                    if(loading) {
-                        return <Loader color={"white"}/>
-                    }
                     return (
                         <div key={post._id} className="posts_container__items__item">
                             {page === "account_info" ? (
