@@ -1,4 +1,5 @@
 import { createContext, useEffect, useReducer } from "react";
+import axios from "axios";
 
 const INITIAL_STATE = {
   user: JSON.parse(localStorage.getItem("user")) || null,
@@ -36,14 +37,38 @@ const AuthReducer = (state, action) => {
       };
     default:
       return state;
-    }
-}
+  }
+};
+
 export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
 
-    useEffect(() => {
-        localStorage.setItem("user", JSON.stringify(state.user));
-    }, [state.user]);
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(state.user));
+  }, [state.user]);
+
+  useEffect(() => {
+    const checkToken = async () => {
+      if (!state.user) return; 
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/auth/checkToken`,
+          { withCredentials: true }
+        );
+
+        if (!res.data.status) {
+          localStorage.removeItem("user");
+          dispatch({ type: "LOGOUT" });
+        }
+      } catch (err) {
+        console.error("Token check failed:", err);
+        localStorage.removeItem("user");
+        dispatch({ type: "LOGOUT" });
+      }
+    };
+
+    checkToken();
+  }, []); 
 
   return (
     <AuthContext.Provider

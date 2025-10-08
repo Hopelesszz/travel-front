@@ -52,7 +52,7 @@ export default function Edit_account() {
             const res = await axios.put(`${API_URL}/users/updateUser/${user._id}`, editedUser, { withCredentials: true }); 
             localStorage.setItem("user", JSON.stringify(res.data));
             dispatch({ type: "LOGIN_SUCCESS", payload: res.data });  
-            const user_award = axios.get(`${API_URL}/userAward/getUserAward?userId=${res.data._id}&awardId=68e253792149cfc7e2ea82ae`);
+            const user_award = axios.get(`${API_URL}/userAward/getUserAward?userId=${res.data._id}&awardId=68e253792149cfc7e2ea82ae`, { withCredentials: true });
             const res2 = (await user_award).data;
             if(!res2) {
                 const award = await axios.post(`${API_URL}/userAward/addUserAward`,{
