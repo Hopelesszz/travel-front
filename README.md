@@ -1,12 +1,35 @@
-# React + Vite
+**Journey Journal** is a full-stack web application and social forum for travelers. Users can share their travel stories, browse posts from other travelers, and engage in discussions using an Instagram-style comment and reply system.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Key Features
 
-Currently, two official plugins are available:
+- **User Authentication:** Secure registration and login flow with protected routes.
+- **Travel Posts Feed:** Create, view, and explore travel impressions with images and descriptions.
+- **Nested Comment Replies:** Interactive comment section allowing users to reply directly to specific comments with automatic parent-comment linking.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Getting Started (Local Setup)
 
-## Expanding the ESLint configuration
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Hopelesszz/travel-front.git
+   cd travel-front
+   ```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Configure environment variables:**
+   - **To use the deployed backend API:** Keep `.env` with `VITE_API_URL=https://my-backend.onrender.com` (or your own backend URL).
+   - **To run with a local backend (`travel-back`):** Leave `VITE_API_URL` empty (or remove `.env`) and start the backend server on `http://localhost:8800` — Vite proxy in `vite.config.js` will forward API requests automatically.
+
+4. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+
+---
+
+## Related Repositories
+
+- **Backend Repository:** ([https://github.com/Hopelesszz/travel-back])
